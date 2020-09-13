@@ -1,13 +1,15 @@
 package sk.gabrielkostiali.workTime.model;
 
 import com.sun.istack.NotNull;
+import org.springframework.data.web.HateoasPageableHandlerMethodArgumentResolver;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
+@Table(name = "employees")
 public class Employee {
 
     @Id
@@ -19,6 +21,11 @@ public class Employee {
     private String surname;
     @NotNull
     private String role;
+
+    @OneToMany(cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            mappedBy = "employee")
+    private Set<WorkTime> workTimes = new HashSet<>();
 
     public  Employee() {}
 
