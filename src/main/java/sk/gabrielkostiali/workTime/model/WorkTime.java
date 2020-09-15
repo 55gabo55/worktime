@@ -1,8 +1,11 @@
 package sk.gabrielkostiali.workTime.model;
 
 import com.sun.istack.NotNull;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.util.Date;
 
 
 @Entity
@@ -13,18 +16,25 @@ public class WorkTime  {
     private Long id;
     @NotNull
     private int time_from;
+    @NotNull
+    private int time_to;
+    @NotNull
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate localDate;
 
-    /*@ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "employee_id", nullable = false)
-    private Employee employee;*/
+    private Employee employee;
 
     public WorkTime() {
     }
 
-    public WorkTime(Long id, int time_from, Employee employee) {
+    public WorkTime(Long id, int time_from, int time_to, LocalDate localDate, Employee employee) {
         this.id = id;
         this.time_from = time_from;
-      //  this.employee = employee;
+        this.time_to = time_to;
+        this.localDate = localDate;
+        this.employee = employee;
     }
 
     public Long getId() {
@@ -43,25 +53,38 @@ public class WorkTime  {
         this.time_from = time_from;
     }
 
- /*   public Employee getEmployee() {
+    public Employee getEmployee() {
         return employee;
     }
 
     public void setEmployee(Employee employee) {
         this.employee = employee;
-    }*/
+    }
 
-    // private int to;
-  //  private Date date;
-   // private String type;
+    public int getTime_to() {
+        return time_to;
+    }
 
+    public void setTime_to(int time_to) {
+        this.time_to = time_to;
+    }
 
-   /* @Override
+    public void setLocalDate(LocalDate localDate) {
+        this.localDate = localDate;
+    }
+
+    public LocalDate getLocalDate() {
+        return localDate;
+    }
+
+    @Override
     public String toString() {
         return "WorkTime{" +
                 "id=" + id +
                 ", time_from=" + time_from +
-                ", employee=" + employee.getName() +
+                ", time_to=" + time_to +
+                ", localDate=" + localDate +
+                ", employee=" + employee +
                 '}';
-    }*/
+    }
 }

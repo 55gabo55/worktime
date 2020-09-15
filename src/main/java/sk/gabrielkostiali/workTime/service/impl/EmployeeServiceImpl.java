@@ -2,19 +2,21 @@ package sk.gabrielkostiali.workTime.service.impl;
 
 import org.springframework.stereotype.Service;
 import sk.gabrielkostiali.workTime.exceptions.EmployeeNotFoundException;
+import sk.gabrielkostiali.workTime.mappers.EmployeeMapper;
 import sk.gabrielkostiali.workTime.model.Employee;
 import sk.gabrielkostiali.workTime.model.WorkTime;
+import sk.gabrielkostiali.workTime.model.dto.EmployeeDto;
 import sk.gabrielkostiali.workTime.repository.EmployeeRepository;
 import sk.gabrielkostiali.workTime.repository.WorkTimeRepository;
 import sk.gabrielkostiali.workTime.service.api.EmployeeService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
-
     private final WorkTimeRepository workTimeRepository;
 
     public EmployeeServiceImpl(EmployeeRepository employeeRepository, WorkTimeRepository workTimeRepository) {
@@ -22,19 +24,29 @@ public class EmployeeServiceImpl implements EmployeeService {
         this.workTimeRepository = workTimeRepository;
     }
 
+
     @Override
     public void addEmployee(Employee employee) {
         employeeRepository.save(employee);
     }
 
     @Override
-    public List<Employee> getEmployees() {
-        return employeeRepository.findAll();
+    public List<EmployeeDto> getEmployees() {
+        return employeeRepository.findAll().stream()
+                .map(EmployeeMapper.INSTANCE::employeeToDto)
+                .collect(Collectors.toList());
+
     }
 
     @Override
-    public Employee get(long employeeId) {
-        return employeeRepository.findById(employeeId).orElse(null);
+    public EmployeeDto get(long employeeId) {
+        Employee employee = employeeRepository.findById(employeeId).orElse(null);
+
+        if (employee != null) {
+            return EmployeeMapper.INSTANCE.employeeToDto(employee);
+        }
+
+        return null;
     }
 
     @Override
@@ -45,7 +57,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             throw new EmployeeNotFoundException(id);
         }
 
-      //  workTime.setEmployee(employee);
+        workTime.setEmployee(employee);
         WorkTime workTime1 = workTimeRepository.save(workTime);
         employee.getWorkTimes().add(workTime1);
     }

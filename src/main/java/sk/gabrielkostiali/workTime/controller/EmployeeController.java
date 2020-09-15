@@ -2,10 +2,12 @@ package sk.gabrielkostiali.workTime.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import sk.gabrielkostiali.workTime.exceptions.EmployeeNotFoundException;
 import sk.gabrielkostiali.workTime.model.Employee;
 import sk.gabrielkostiali.workTime.model.WorkTime;
+import sk.gabrielkostiali.workTime.model.dto.EmployeeDto;
 import sk.gabrielkostiali.workTime.service.api.EmployeeService;
 
 import java.util.List;
@@ -21,9 +23,8 @@ public class EmployeeController {
     }
 
     @GetMapping("{id}")
-    public Employee get(@PathVariable("id") long id) {
-
-        Employee employee = employeeService.get(id);
+    public EmployeeDto get(@PathVariable("id") long id) {
+        EmployeeDto employee = employeeService.get(id);
 
         if (employee == null) {
             throw new EmployeeNotFoundException(id);
@@ -32,7 +33,7 @@ public class EmployeeController {
     }
 
     @GetMapping()
-    public List<Employee> getEmployees() {
+    public List<EmployeeDto> getEmployees() {
         return employeeService.getEmployees();
     }
 
@@ -46,4 +47,11 @@ public class EmployeeController {
     public void addWorkTime(@RequestBody WorkTime workTime, @PathVariable("id") long id) {
         employeeService.addWorkTime(workTime, id);
     }
+
+    @RequestMapping("/home")
+    public String home() {
+        System.out.println("Going home...");
+        return "index";
+    }
+
 }

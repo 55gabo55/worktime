@@ -14,7 +14,7 @@ public class Employee {
 
     @Id
     @GeneratedValue
-    private Long id;
+    private long id;
     @NotNull
     private String name;
     @NotNull
@@ -35,11 +35,11 @@ public class Employee {
         this.role = role;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -65,6 +65,14 @@ public class Employee {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public Set<WorkTime> getWorkTimes() {
+        return workTimes;
+    }
+
+    public void setWorkTimes(Set<WorkTime> workTimes) {
+        this.workTimes = workTimes;
     }
 
     @Override
