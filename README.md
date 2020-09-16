@@ -1,1 +1,1 @@
-# worktime
+Basic spring app.
