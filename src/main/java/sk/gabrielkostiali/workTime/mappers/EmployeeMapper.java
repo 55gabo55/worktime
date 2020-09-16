@@ -10,5 +10,5 @@ public interface EmployeeMapper {
     EmployeeMapper INSTANCE = Mappers.getMapper(EmployeeMapper.class);
 
     EmployeeDto employeeToDto(Employee employee);
- // Employee employeeDtoToEmployee(EmployeeDto employeeDto);
+    Employee employeeDtoToEmployee(EmployeeDto employeeDto);
 }

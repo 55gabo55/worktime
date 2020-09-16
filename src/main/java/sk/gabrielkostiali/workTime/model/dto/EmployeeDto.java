@@ -55,4 +55,10 @@ public class EmployeeDto {
     public void setWorkTimes(Set<WorkTimeDto> workTimes) {
         this.workTimes = workTimes;
     }
+
+    @Override
+    public String toString() {
+        return
+                id + "- " + name + " " + surname;
+    }
 }

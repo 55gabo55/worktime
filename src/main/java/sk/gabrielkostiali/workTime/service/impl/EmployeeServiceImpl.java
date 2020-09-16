@@ -6,11 +6,14 @@ import sk.gabrielkostiali.workTime.mappers.EmployeeMapper;
 import sk.gabrielkostiali.workTime.model.Employee;
 import sk.gabrielkostiali.workTime.model.WorkTime;
 import sk.gabrielkostiali.workTime.model.dto.EmployeeDto;
+import sk.gabrielkostiali.workTime.model.dto.ViewForm;
+import sk.gabrielkostiali.workTime.model.dto.WorkTimeDto;
 import sk.gabrielkostiali.workTime.repository.EmployeeRepository;
 import sk.gabrielkostiali.workTime.repository.WorkTimeRepository;
 import sk.gabrielkostiali.workTime.service.api.EmployeeService;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -60,5 +63,20 @@ public class EmployeeServiceImpl implements EmployeeService {
         workTime.setEmployee(employee);
         WorkTime workTime1 = workTimeRepository.save(workTime);
         employee.getWorkTimes().add(workTime1);
+    }
+
+    @Override
+    public Set<WorkTime> getWorkTimes(ViewForm viewForm) {
+
+        long employeeId = Long.parseLong(viewForm.getS().split("-", 2)[0]);
+        Employee employee = employeeRepository.findById(employeeId).orElse(null);
+
+        return employee.getWorkTimes();
+    }
+
+    @Override
+    public Employee getEmployeeView(ViewForm viewForm) {
+        long employeeId = Long.parseLong(viewForm.getS().split("-", 2)[0]);
+        return employeeRepository.findById(employeeId).orElse(null);
     }
 }

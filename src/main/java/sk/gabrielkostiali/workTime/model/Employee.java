@@ -23,7 +23,7 @@ public class Employee {
     private String role;
 
     @OneToMany(cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY,
+            fetch = FetchType.EAGER,
             mappedBy = "employee")
     private Set<WorkTime> workTimes = new HashSet<>();
 
